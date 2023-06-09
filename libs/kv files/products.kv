@@ -1,0 +1,494 @@
+#:import MDTextFieldPersianrect libs.py_files.persianuixrect.MDTextFieldPersianrect
+
+
+<Product@ScreenManager>:
+    transition: WipeTransition()
+    Product_first:
+        id: _Product_first
+    Product_detail:
+        id: _Product_detail
+#________________________
+<Product_first@MDScreen>:
+    name: 'Product_first'
+    FitImage:
+        source: "image/bg.jpg"
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: app.theme_cls.primary_light
+        MDTopAppBar:
+            title: 'Product Manager'
+            specific_text_color: app.theme_cls.primary_dark
+            md_bg_color: app.theme_cls.primary_light
+            elevation: 0
+            right_action_items: [['magnify', lambda x: app.root.search_action()]]
+
+        ScrollView:
+            do_scroll_x: False
+            effect_cls: 'ScrollEffect'
+            MDGridLayout:
+                cols: 4
+                spacing: '5dp'
+                adaptive_height: True                
+                padding: ('5dp', '5dp', '0dp', '5dp')
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                Product_first_MDSmartTile:
+                    size_hint: None,None
+                    size: (root.width - dp(25)) / 4, (root.width - dp(25))/ 4 + dp(68) # dp(25) come from: (spacing + left padding) 4 * dp(5) + dp(5)
+                    source: "image/01.jpg"
+                    text:"Hats and Masks"
+                    on_press:
+                        app.root.open_category_table(self.text)
+                Product_first_MDSmartTile:
+                    size_hint: None,None
+                    size: (root.width - dp(25)) / 4, (root.width - dp(25))/ 4 + dp(68) 
+                    source: "image/02.jpg"
+                    text:"Sport Gloves"
+                    on_press:
+                        app.root.open_category_table(self.text)
+
+                Product_first_MDSmartTile:
+                    size_hint: None,None
+                    size: (root.width - dp(25)) / 4, (root.width - dp(25))/ 4 + dp(68) 
+                    source: "image/03.jpg"
+                    text:"Swimming Accessories"
+                    on_press:
+                        app.root.open_category_table(self.text)
+                Product_first_MDSmartTile:
+                    size_hint: None,None
+                    size: (root.width - dp(25)) / 4, (root.width - dp(25))/ 4 + dp(68) 
+                    source: "image/04.jpg"
+                    text:"Pilates and Fitness"
+                    on_press:
+                        app.root.open_category_table(self.text)
+                Product_first_MDSmartTile:
+                    size_hint: None,None
+                    size: (root.width - dp(25)) / 4, (root.width - dp(25))/ 4 + dp(68) 
+                    source: "image/05.jpg"
+                    text:"Bottles and Shakers"
+                    on_press:
+                        app.root.open_category_table(self.text)
+                Product_first_MDSmartTile:
+                    size_hint: None,None
+                    size: (root.width - dp(25)) / 4, (root.width - dp(25))/ 4 + dp(68) 
+                    source: "image/06.jpg"
+                    text:"Jump Ropes"
+                    on_press:
+                        app.root.open_category_table(self.text)
+<Product_first_MDSmartTile>:
+    radius: [24, 24, 0, 0]
+    box_radius: [0, 0, 24, 24]
+    box_color: app.theme_cls.primary_dark #0, 0, 0, .2#
+    pos_hint: {"center_x": .5, "center_y": .5}
+    overlap: False
+    text: ''
+    MDLabel:
+        text: root.text
+        bold: True
+        color: 1, 1, 1, 1
+        #theme_text_color: 'Custom'
+        #text_color: 'black'
+#
+<Product_table>:
+    #name: 'Product_table'
+    FitImage:
+        source: "image/bg.jpg"
+    MDBoxLayout:
+        id: _Product_table_MDBoxLayout
+        orientation: 'vertical'
+        #md_bg_color: app.theme_cls.primary_light
+        MDTopAppBar:
+            id: _Product_table_MDTopAppBar
+            #title: 'Product Manager'
+            specific_text_color: app.theme_cls.primary_dark
+            md_bg_color: app.theme_cls.primary_light
+            elevation: 0
+            right_action_items: [['arrow-left', lambda x: app.root.back_Product_first()], ['magnify', lambda x: app.root.search_action()]]
+#
+<Product_detail@MDScreen>:
+    name: 'Product_detail'
+    FitImage:
+        source: "image/bg.jpg"
+    MDBoxLayout:
+        id: _.....
+        orientation: 'vertical'
+        md_bg_color: app.theme_cls.primary_light
+
+        MDTopAppBar:
+            id: .....
+            title: 'Product_detail'
+            specific_text_color: app.theme_cls.primary_dark
+            md_bg_color: app.theme_cls.primary_light
+            elevation: 0
+            right_action_items: [['arrow-left', lambda x: app.root.back_Product_first()]]            
+
+        ScrollView:
+            do_scroll_x: False
+            effect_cls: 'ScrollEffect'
+            MDBoxLayout:
+                id: _Product_detail_Box
+                orientation:'vertical'
+                adaptive_height: True
+                MDGridLayout:
+                    md_bg_color: app.theme_cls.primary_light
+                    id: _Product_detail_Gr
+                    cols: 8
+                    row_default_height: (self.width - self.cols*self.spacing[0]) / self.cols 
+                    row_force_default: True
+                    col_default_width: (self.width - self.cols*self.spacing[0]) / self.cols
+
+                    adaptive_height: True
+                    padding: dp(2), dp(2)
+                    spacing: dp(2)
+
+<Product_detail_image>:
+    orientation: 'vertical'
+    source: ''
+    md_bg_color: 'white'
+    icon_color: 'red'
+
+    MDIconButton:
+        icon: 'close-circle'
+        icon_size: "18sp"
+        theme_icon_color: "Custom"
+        icon_color: root.icon_color
+        size_hint_y: .15
+        on_press:
+            app.root.remove_image_from_host(root.source)        
+    AsyncImage:
+        source: root.source
+        size_hint_y: .85
+
+<Product_detail_BoxLayout>:
+    orientation:'vertical'
+    size_hint_y: None
+    height: self.minimum_height  
+    padding:mm(2), mm(2), mm(2), mm(20)
+    spacing: '10dp'
+    title: ''
+    category: ''
+    dkp: ''
+    code: ''
+    material: ''
+    country: ''
+    type: ''
+    dt1: ''
+    dt2: ''
+    dt3: ''
+    dt4: ''
+
+    MDCard:
+        orientation: 'vertical'
+        size_hint: 1, None
+        size: self.minimum_size
+        spacing: dp(8)
+        padding: ('15dp', '0dp', '15dp', '5dp')
+        MDLabel:
+            halign: 'center'
+            font_size: sp(12)
+            text: 'Manage variations (size or color)'#get_display(arabic_reshaper.reshape('فرم ثبت مشخصات'))
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint_y: None
+            height: "60dp"
+            font_style: 'H6'
+
+        BoxLayout:
+            orientation:'horizontal'
+            size_hint_y: None
+            height: "30dp"
+            padding: ('0dp', '0dp', '0dp', '10dp')
+            MDLabel:
+                text: 'Color/Size'
+            MDLabel:
+                text: 'Code'
+            MDLabel:
+                text: 'Stock'
+            MDLabel:
+                text: 'Price'
+            MDLabel:
+                text: 'Disc.'
+            MDLabel:
+                text: 'Price Disc.'
+
+        Widget1:
+        Product_detail_Variations:
+            size_hint: 1, None
+            height: "35dp"
+        Product_detail_Variations:
+            size_hint: 1, None
+            height: "35dp"
+        Product_detail_Variations:
+            size_hint: 1, None
+            height: "35dp"
+        Product_detail_Variations:
+            size_hint: 1, None
+            height: "35dp"
+    MDCard:
+        orientation: 'vertical'
+        size_hint: 1, None
+        size: self.minimum_size
+        spacing: dp(8)
+        padding: ('15dp', '0dp', '15dp', '5dp')
+
+        MDTopAppBar:
+            id: .....
+            title: 'Main features management'
+            specific_text_color: app.theme_cls.primary_dark
+            md_bg_color: "white"#app.theme_cls.primary_light
+            elevation: 0
+            right_action_items: [['pencil', lambda x: app.root.Main_features_management_edit_action()], ['content-save', lambda x: app.root.save_action()]]
+        MDTextFieldPersianrect:
+            multiline: False
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint: 1, None
+            height: "35dp"
+            hint_text:  "Title" #get_display(arabic_reshaper.reshape(' Title: '))                   
+            text: root.title
+            disabled: True
+            hint_text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+        MDTextFieldPersianrect:
+            multiline: False
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint: 1, None
+            height: "35dp"
+            hint_text:  "Category"#get_display(arabic_reshaper.reshape('  : '))                   
+            text: root.category
+            disabled: True
+            hint_text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+
+        MDTextFieldPersianrect:
+            multiline: False
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint: 1, None
+            height: "35dp"
+            hint_text:  "DKP" #get_display(arabic_reshaper.reshape(':DKP '))                   
+            text: root.dkp
+            disabled: True
+            hint_text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+
+        MDTextFieldPersianrect:
+            id: _last_name
+            #base_direction: 'rtl'
+            multiline: False
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint: 1, None
+            height: "35dp"
+            hint_text:  "Product Code" #get_display(arabic_reshaper.reshape(':DKP '))                   
+            text: root.code
+            disabled: True
+            hint_text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+
+        MDTextFieldPersianrect:
+            id: _last_name
+            #base_direction: 'rtl'
+            multiline: False
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint: 1, None
+            height: "35dp"
+            hint_text:  "Product material" #get_display(arabic_reshaper.reshape(':DKP '))                   
+            text: root.material
+            disabled: True
+            hint_text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+
+        MDTextFieldPersianrect:
+            id: _last_name
+            #base_direction: 'rtl'
+            multiline: False
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint: 1, None
+            height: "35dp"
+            hint_text:  "Manufacturing Country" #get_display(arabic_reshaper.reshape(':DKP '))                   
+            text: root.country
+            disabled: True
+            hint_text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+
+        MDTextFieldPersianrect:
+            id: _last_name
+            #base_direction: 'rtl'
+            multiline: False
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint: 1, None
+            height: "35dp"
+            hint_text:  "Product Type" #get_display(arabic_reshaper.reshape(':DKP '))                   
+            text: root.type
+            disabled: True
+            hint_text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+
+        MDTextFieldPersianrect:
+            id: _last_name
+            #base_direction: 'rtl'
+            multiline: True
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint: 1, None
+            height: "70dp"
+            hint_text:  "Details 1" #get_display(arabic_reshaper.reshape(':DKP '))  
+            text: root.dt1   
+            disabled: True
+            hint_text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+
+        MDTextFieldPersianrect:
+            id: _last_name
+            #base_direction: 'rtl'
+            multiline: True
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint: 1, None
+            height: "70dp"
+            hint_text:  "Details 2" #get_display(arabic_reshaper.reshape(':DKP '))   
+            text: root.dt2   
+            disabled: True
+            hint_text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+
+        MDTextFieldPersianrect:
+            id: _last_name
+            #base_direction: 'rtl'
+            multiline: True
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint: 1, None
+            height: "70dp"
+            hint_text:  "Details 3" #get_display(arabic_reshaper.reshape(':DKP '))     
+            text: root.dt3   
+            disabled: True
+            hint_text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+
+
+        MDTextFieldPersianrect:        
+            id: _last_name
+            #base_direction: 'rtl'
+            multiline: True
+            font_name: 'font/IRANSansXFaNum-Medium.ttf'
+            size_hint: 1, None
+            height: "70dp"
+            hint_text:  "Details 4" #get_display(arabic_reshaper.reshape(':DKP '))                   
+            text: root.dt4
+            disabled: True
+            hint_text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+            line_color_normal: app.theme_cls.primary_dark
+            text_color_normal: app.theme_cls.primary_dark
+            text_color_focus: 0,0,0,1
+
+
+<Product_detail_Variations@BoxLayout>:
+    orientation:'horizontal'
+    text: 'White'
+    code: 'H-01'
+    spacing: '10dp'
+    MDLabel:
+        text: root.text
+    MDLabel:
+        text: root.code
+    MDTextFieldRect:
+        id: _last_name
+        #base_direction: 'rtl'
+        multiline: False
+        font_name: 'font/IRANSansXFaNum-Medium.ttf'
+        hint_text:  "Stock"  
+    MDTextFieldRect:
+        id: _last_name
+        #base_direction: 'rtl'
+        multiline: False
+        font_name: 'font/IRANSansXFaNum-Medium.ttf'
+        hint_text:  "Price"  
+    MDTextFieldRect:
+        id: _last_name
+        #base_direction: 'rtl'
+        multiline: False
+        font_name: 'font/IRANSansXFaNum-Medium.ttf'
+        hint_text:  "Disc."  
+    MDTextFieldRect:
+        id: _last_name
+        #base_direction: 'rtl'
+        multiline: False
+        font_name: 'font/IRANSansXFaNum-Medium.ttf'
+        hint_text:  "Price Disc." 
+        disabled: True

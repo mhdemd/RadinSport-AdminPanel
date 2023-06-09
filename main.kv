@@ -1,0 +1,73 @@
+#:import WipeTransition kivy.uix.screenmanager.WipeTransition
+<ResponsiveView>:
+
+<MobileView>
+    MDRectangleFlatIconButton:
+        icon: "android"
+        text: "Mobile"
+        pos_hint: {"center_x": .5, "center_y": .5}
+
+
+<TabletView>
+    MDRectangleFlatIconButton:
+        icon: "android"
+        text: "Table"
+    MDRectangleFlatIconButton:
+        icon: "android"
+        text: "Table"
+    MDRectangleFlatIconButton:
+        icon: "android"
+        text: "Table"
+
+
+<DesktopView>
+    id: desktop_view
+    MDBoxLayout:
+        orientation:'horizontal'
+        MDBoxLayout:# Left side bar
+            size_hint_x: .05
+            md_bg_color: app.theme_cls.primary_dark
+            MDLabel:
+                halign: 'center'
+                text:'a'
+
+        Product:
+            id: _Product
+            size_hint_x: .7
+
+            #size_hint_x: None
+            #width: dp(950)
+        Orders:
+            id: _orders
+            size_hint_x: .25
+
+#________________________
+
+
+
+
+
+########## Search
+<Content>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "60dp"
+    error: ''
+    MDTextField:
+        id: _code
+        hint_text: "Code (in this format: SH-01 or H-12)"
+        helper_text: root.error
+        helper_text_mode: "on_error"
+########## Common widgets
+<Widget1@Widget>:
+
+    size_hint_y: None
+    height: dp(2)
+    canvas:
+        Color:
+            rgba: 128/255, 128/255, 128/255, .1
+        Rectangle:
+            pos: dp(0), self.y
+            size: root.width - dp(0), self.height
+
