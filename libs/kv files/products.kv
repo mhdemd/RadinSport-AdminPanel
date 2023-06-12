@@ -105,12 +105,12 @@
             elevation: 0
             right_action_items: [['arrow-left', lambda x: app.root.back_Product_first()], ['magnify', lambda x: app.root.search_action()]]
 #
-<Product_detail@MDScreen>:
+<Product_detail>:
     name: 'Product_detail'
+    mgr1: _Product_detail_Box
     FitImage:
         source: "image/bg.jpg"
     MDBoxLayout:
-        id: _.....
         orientation: 'vertical'
         md_bg_color: app.theme_cls.primary_light
 
@@ -129,6 +129,7 @@
                 id: _Product_detail_Box
                 orientation:'vertical'
                 adaptive_height: True
+
                 MDGridLayout:
                     md_bg_color: app.theme_cls.primary_light
                     id: _Product_detail_Gr
@@ -160,6 +161,10 @@
         size_hint_y: .85
 
 <Product_detail_BoxLayout>:
+    mgr1: _Product_Details_MDTopAppBar
+    mgr2: _Variant_Inventory_MDTopAppBar
+    mgr3: _Product_Details_MDCard
+    mgr4: _Variant_Inventory_BoxLayout
     orientation:'vertical'
     size_hint_y: None
     height: self.minimum_height  
@@ -183,14 +188,16 @@
         size: self.minimum_size
         spacing: dp(8)
         padding: ('15dp', '0dp', '15dp', '5dp')
-        MDLabel:
-            halign: 'center'
-            font_size: sp(12)
-            text: 'Manage variations (size or color)'#get_display(arabic_reshaper.reshape('فرم ثبت مشخصات'))
-            font_name: 'font/IRANSansXFaNum-Medium.ttf'
-            size_hint_y: None
-            height: "60dp"
-            font_style: 'H6'
+        MDTopAppBar:
+            id: _Variant_Inventory_MDTopAppBar
+            size_hint: 1, None
+            height: "50dp"
+            title: 'Variant Inventory'
+            markup: True
+            specific_text_color: app.theme_cls.primary_dark
+            md_bg_color: "white"#app.theme_cls.primary_light
+            elevation: 0
+            right_action_items: [['pencil', lambda x: app.root.Variant_Inventory_edit_action(), 'edit_button'], ['content-save', lambda x: app.root.Variant_Inventory_save_action(), 'save_button']]
 
         BoxLayout:
             orientation:'horizontal'
@@ -211,32 +218,87 @@
                 text: 'Price Disc.'
 
         Widget1:
-        Product_detail_Variations:
-            size_hint: 1, None
-            height: "35dp"
-        Product_detail_Variations:
-            size_hint: 1, None
-            height: "35dp"
-        Product_detail_Variations:
-            size_hint: 1, None
-            height: "35dp"
-        Product_detail_Variations:
-            size_hint: 1, None
-            height: "35dp"
+        BoxLayout:
+            id: _Variant_Inventory_BoxLayout
+            orientation:'vertical'
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: '5dp'
     MDCard:
+        id: _Product_Details_MDCard
         orientation: 'vertical'
         size_hint: 1, None
         size: self.minimum_size
         spacing: dp(8)
-        padding: ('15dp', '0dp', '15dp', '5dp')
+        padding: ('15dp', '0dp', '15dp', '15dp')
 
         MDTopAppBar:
-            id: .....
-            title: 'Main features management'
+            id: _Product_Details_MDTopAppBar
+            size_hint: 1, None
+            height: "50dp"
+            title: 'Product Details'
+            markup: True
             specific_text_color: app.theme_cls.primary_dark
             md_bg_color: "white"#app.theme_cls.primary_light
             elevation: 0
-            right_action_items: [['pencil', lambda x: app.root.Main_features_management_edit_action()], ['content-save', lambda x: app.root.save_action()]]
+            right_action_items: [['pencil', lambda x: app.root.Product_Details_edit_action(), 'edit_button'], ['content-save', lambda x: app.root.Product_Details_save_action(), 'save_button']]
+
+        MDBoxLayout:
+            orientation:'horizontal'  
+            size_hint: 1, None
+            height: "70dp"
+            MDTextFieldPersianrect:
+                multiline: False
+                font_name: 'font/IRANSansXFaNum-Medium.ttf'
+                hint_text:  "Category"#get_display(arabic_reshaper.reshape('  : '))                   
+                text: root.category
+                disabled: True
+                hint_text_color_normal: app.theme_cls.primary_dark
+                hint_text_color_focus: app.theme_cls.primary_dark
+                line_color_normal: app.theme_cls.primary_dark
+                text_color_normal: app.theme_cls.primary_dark
+                text_color_focus: 0,0,0,1
+
+                line_color_normal: app.theme_cls.primary_dark
+                text_color_normal: app.theme_cls.primary_dark
+                text_color_focus: 0,0,0,1
+
+
+            MDTextFieldPersianrect:
+                multiline: False
+                font_name: 'font/IRANSansXFaNum-Medium.ttf'
+                hint_text:  "DKP" #get_display(arabic_reshaper.reshape(':DKP '))                   
+                text: root.dkp
+                disabled: True
+                hint_text_color_normal: app.theme_cls.primary_dark
+                hint_text_color_focus: app.theme_cls.primary_dark
+                line_color_normal: app.theme_cls.primary_dark
+                text_color_normal: app.theme_cls.primary_dark
+                text_color_focus: 0,0,0,1
+
+                line_color_normal: app.theme_cls.primary_dark
+                text_color_normal: app.theme_cls.primary_dark
+                text_color_focus: 0,0,0,1
+
+
+            MDTextFieldPersianrect:
+                id: _last_name
+                #base_direction: 'rtl'
+                multiline: False
+                font_name: 'font/IRANSansXFaNum-Medium.ttf'
+                hint_text:  "Product Code" #get_display(arabic_reshaper.reshape(':DKP '))                   
+                text: root.code
+                disabled: True
+                hint_text_color_normal: app.theme_cls.primary_dark
+                hint_text_color_focus: app.theme_cls.primary_dark
+                line_color_normal: app.theme_cls.primary_dark
+                text_color_normal: app.theme_cls.primary_dark
+                text_color_focus: 0,0,0,1
+
+                line_color_normal: app.theme_cls.primary_dark
+                text_color_normal: app.theme_cls.primary_dark
+                text_color_focus: 0,0,0,1
+
         MDTextFieldPersianrect:
             multiline: False
             font_name: 'font/IRANSansXFaNum-Medium.ttf'
@@ -245,71 +307,11 @@
             hint_text:  "Title" #get_display(arabic_reshaper.reshape(' Title: '))                   
             text: root.title
             disabled: True
-            hint_text_color_normal: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            hint_text_color_focus: 0,0,0,1#app.theme_cls.primary_dark
+            line_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
             text_color_focus: 0,0,0,1
-
-        MDTextFieldPersianrect:
-            multiline: False
-            font_name: 'font/IRANSansXFaNum-Medium.ttf'
-            size_hint: 1, None
-            height: "35dp"
-            hint_text:  "Category"#get_display(arabic_reshaper.reshape('  : '))                   
-            text: root.category
-            disabled: True
-            hint_text_color_normal: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
-
-        MDTextFieldPersianrect:
-            multiline: False
-            font_name: 'font/IRANSansXFaNum-Medium.ttf'
-            size_hint: 1, None
-            height: "35dp"
-            hint_text:  "DKP" #get_display(arabic_reshaper.reshape(':DKP '))                   
-            text: root.dkp
-            disabled: True
-            hint_text_color_normal: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
-
-        MDTextFieldPersianrect:
-            id: _last_name
-            #base_direction: 'rtl'
-            multiline: False
-            font_name: 'font/IRANSansXFaNum-Medium.ttf'
-            size_hint: 1, None
-            height: "35dp"
-            hint_text:  "Product Code" #get_display(arabic_reshaper.reshape(':DKP '))                   
-            text: root.code
-            disabled: True
-            hint_text_color_normal: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
-
         MDTextFieldPersianrect:
             id: _last_name
             #base_direction: 'rtl'
@@ -320,16 +322,11 @@
             hint_text:  "Product material" #get_display(arabic_reshaper.reshape(':DKP '))                   
             text: root.material
             disabled: True
-            hint_text_color_normal: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            hint_text_color_focus: 0,0,0,1#app.theme_cls.primary_dark
+            line_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
             text_color_focus: 0,0,0,1
-
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
 
         MDTextFieldPersianrect:
             id: _last_name
@@ -341,16 +338,11 @@
             hint_text:  "Manufacturing Country" #get_display(arabic_reshaper.reshape(':DKP '))                   
             text: root.country
             disabled: True
-            hint_text_color_normal: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            hint_text_color_focus: 0,0,0,1#app.theme_cls.primary_dark
+            line_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
             text_color_focus: 0,0,0,1
-
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
 
         MDTextFieldPersianrect:
             id: _last_name
@@ -362,16 +354,11 @@
             hint_text:  "Product Type" #get_display(arabic_reshaper.reshape(':DKP '))                   
             text: root.type
             disabled: True
-            hint_text_color_normal: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            hint_text_color_focus: 0,0,0,1#app.theme_cls.primary_dark
+            line_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
             text_color_focus: 0,0,0,1
-
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
 
         MDTextFieldPersianrect:
             id: _last_name
@@ -383,16 +370,11 @@
             hint_text:  "Details 1" #get_display(arabic_reshaper.reshape(':DKP '))  
             text: root.dt1   
             disabled: True
-            hint_text_color_normal: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            hint_text_color_focus: 0,0,0,1#app.theme_cls.primary_dark
+            line_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
             text_color_focus: 0,0,0,1
-
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
 
         MDTextFieldPersianrect:
             id: _last_name
@@ -404,16 +386,11 @@
             hint_text:  "Details 2" #get_display(arabic_reshaper.reshape(':DKP '))   
             text: root.dt2   
             disabled: True
-            hint_text_color_normal: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            hint_text_color_focus: 0,0,0,1#app.theme_cls.primary_dark
+            line_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
             text_color_focus: 0,0,0,1
-
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
 
         MDTextFieldPersianrect:
             id: _last_name
@@ -425,17 +402,11 @@
             hint_text:  "Details 3" #get_display(arabic_reshaper.reshape(':DKP '))     
             text: root.dt3   
             disabled: True
-            hint_text_color_normal: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            hint_text_color_focus: 0,0,0,1#app.theme_cls.primary_dark
+            line_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
             text_color_focus: 0,0,0,1
-
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
-
 
         MDTextFieldPersianrect:        
             id: _last_name
@@ -447,48 +418,51 @@
             hint_text:  "Details 4" #get_display(arabic_reshaper.reshape(':DKP '))                   
             text: root.dt4
             disabled: True
-            hint_text_color_normal: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
+            hint_text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            hint_text_color_focus: 0,0,0,1#app.theme_cls.primary_dark
+            line_color_normal: 0,0,0,1#app.theme_cls.primary_dark
+            text_color_normal: 0,0,0,1#app.theme_cls.primary_dark
             text_color_focus: 0,0,0,1
 
-            line_color_normal: app.theme_cls.primary_dark
-            text_color_normal: app.theme_cls.primary_dark
-            text_color_focus: 0,0,0,1
-
-
-<Product_detail_Variations@BoxLayout>:
+<Product_detail_Variations>:
     orientation:'horizontal'
-    text: 'White'
-    code: 'H-01'
+    text: ''
+    code: ''
     spacing: '10dp'
+    text_stock: ''
+    text_price: ''
+    text_disc: '0'
+    text_price_disc: ''
     MDLabel:
         text: root.text
+        font_name: 'font/IRANSansXFaNum-Medium.ttf'
+        halign: "center"
     MDLabel:
         text: root.code
     MDTextFieldRect:
-        id: _last_name
-        #base_direction: 'rtl'
+        id: _Stock
         multiline: False
         font_name: 'font/IRANSansXFaNum-Medium.ttf'
         hint_text:  "Stock"  
+        disabled: True
+        text: root.text_stock
     MDTextFieldRect:
-        id: _last_name
-        #base_direction: 'rtl'
+        id: _Price
         multiline: False
         font_name: 'font/IRANSansXFaNum-Medium.ttf'
-        hint_text:  "Price"  
+        hint_text:  "Price" 
+        disabled: True
+        text: root.text_price
     MDTextFieldRect:
-        id: _last_name
-        #base_direction: 'rtl'
+        id: _Disc
         multiline: False
         font_name: 'font/IRANSansXFaNum-Medium.ttf'
-        hint_text:  "Disc."  
+        hint_text:  "Disc." 
+        disabled: True
+        text: root.text_disc
     MDTextFieldRect:
-        id: _last_name
-        #base_direction: 'rtl'
         multiline: False
         font_name: 'font/IRANSansXFaNum-Medium.ttf'
         hint_text:  "Price Disc." 
         disabled: True
+        text: root.text_price_disc

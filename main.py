@@ -109,6 +109,10 @@ class Content(BoxLayout):
     pass#error = ObjectProperty()
 
 class Product_detail_BoxLayout(BoxLayout):
+    mgr1= ObjectProperty()
+    mgr2= ObjectProperty() 
+    mgr3= ObjectProperty() 
+    mgr4= ObjectProperty()       
     title= ObjectProperty()
     code= ObjectProperty()
     category= ObjectProperty()
@@ -120,6 +124,17 @@ class Product_detail_BoxLayout(BoxLayout):
     dt2= ObjectProperty()
     dt3= ObjectProperty()
     dt4= ObjectProperty()
+
+class Product_detail(MDScreen):
+    mgr1= ObjectProperty()
+
+class Product_detail_Variations(BoxLayout):
+    text= ObjectProperty()
+    code= ObjectProperty()
+    text_stock= ObjectProperty()
+    text_price= ObjectProperty()
+    text_disc= ObjectProperty()
+    text_price_disc= ObjectProperty()
 
 class ResponsiveView(MDResponsiveLayout, MDScreen):
     dialog = None
@@ -643,6 +658,8 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
 
     def add_Box_to_Product_detail(self, *arg):
 
+        sort_list = sorted(arg[0] , key=lambda x: x[1])
+
         add_box = Product_detail_BoxLayout(
             title= arg[0][0][0],
             code= arg[0][0][1],
@@ -656,8 +673,24 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
             dt3= self.getAR(arg[0][0][18]),
             dt4= self.getAR(arg[0][0][19]),
         )
-        self.desktop_view.ids._Product.get_screen('Product_detail').ids._Product_detail_Box.add_widget(add_box)
 
+
+        for i in range(len(sort_list)):
+            add_box.mgr4.add_widget(Factory.Product_detail_Variations(
+                    size_hint= (1, None),
+                    height= "35dp",
+                    text= get_display(reshape(f"{sort_list[i][11]}")), # {sort_list[i][10]}",
+                    code= f"{sort_list[i][1]}",
+                    text_stock= f"{sort_list[i][4]:,}",
+                    text_price= f"{sort_list[i][7]:,}",
+                    text_disc= f"{sort_list[i][9]}",
+                    text_price_disc = f"{sort_list[i][7] * (1 - int(sort_list[i][9]) / 100):,}"
+            ))
+            add_box.mgr4.add_widget(Factory.Widget1(size_hint_x= 1))
+
+
+        self.desktop_view.ids._Product.get_screen('Product_detail').ids._Product_detail_Box.add_widget(add_box)
+    
         content = add_box
         content.opacity = 0
         Animation(opacity = 1, duration = 1.5).start(content)
@@ -787,8 +820,8 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
             # Send the POST request
             response = requests.post(url, data=payload)
     
-    def Main_features_management_edit_action(self):
-        all_widgets = self.desktop_view.ids._Product.get_screen('Product_detail').ids._Product_detail_Box.children[0].children[0].children
+    def Product_Details_edit_action(self):
+        all_widgets = self.desktop_view.ids._Product.get_screen('Product_detail').mgr1.children[0].mgr3.children
 
         for i in all_widgets:
             try: 
@@ -796,6 +829,55 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
                     i.disabled= False
             except:
                 None
+
+        self.desktop_view.ids._Product.get_screen('Product_detail').mgr1.children[0].mgr1.title= 'Main features management [color=#FF0000](Editing mode)[/color]'
+
+    def Product_Details_save_action(self):
+        self.desktop_view.ids._Product.get_screen('Product_detail').mgr1.children[0].mgr1.title= 'Main features management'
+
+
+
+
+        all_widgets = self.desktop_view.ids._Product.get_screen('Product_detail').mgr1.children[0].mgr3.children
+
+        for i in all_widgets:
+            try: 
+                if i.hint_text != 'Category' and i.hint_text != 'DKP' and i.hint_text != 'Product Code':
+                    i.disabled= True
+            except:
+                None
+
+        toast('Changes saved')
+    
+    def Variant_Inventory_edit_action(self):
+        all_widgets = self.desktop_view.ids._Product.get_screen('Product_detail').mgr1.children[0].mgr4.children
+
+        for i in all_widgets:
+            try:
+                i.ids._Stock.disabled= False
+                i.ids._Price.disabled= False
+                i.ids._Disc.disabled= False
+            except:
+                None
+
+        self.desktop_view.ids._Product.get_screen('Product_detail').mgr1.children[0].mgr2.title= 'Variant Inventory [color=#FF0000](Editing mode)[/color]'
+    
+    def Variant_Inventory_save_action(self):
+        self.desktop_view.ids._Product.get_screen('Product_detail').mgr1.children[0].mgr2.title= 'Variant Inventory'
+
+
+
+
+        all_widgets = self.desktop_view.ids._Product.get_screen('Product_detail').mgr1.children[0].mgr4.children
+
+        for i in all_widgets:
+            try:    
+                i.ids._Stock.disabled= True
+                i.ids._Price.disabled= True
+                i.ids._Disc.disabled= True
+            except:
+                None
+        toast('Changes saved')
 
     def getAR(self, arWord):
         arWord = '- ' + arWord.strip()
