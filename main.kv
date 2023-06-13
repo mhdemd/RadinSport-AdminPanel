@@ -24,16 +24,52 @@
     id: desktop_view
     MDBoxLayout:
         orientation:'horizontal'
-        MDBoxLayout:# Left side bar
-            size_hint_x: .05
-            md_bg_color: app.theme_cls.primary_dark
-            MDLabel:
-                halign: 'center'
-                text:'a'
+        #MDBoxLayout:# Left side bar
+        #    size_hint_x: .08
+        #    md_bg_color: app.theme_cls.primary_dark
+        MDBoxLayout:
+            size_hint_x: None
+            width: navigation_rail.width
+            MDNavigationRail:
+                id: navigation_rail
+                md_bg_color: app.theme_cls.primary_dark
+                text_color_item_normal: "white"
+                text_color_item_active: app.theme_cls.primary_light
+                icon_color_item_normal: "white"
+                icon_color_item_active: app.theme_cls.primary_dark
+                selected_color_background: app.theme_cls.primary_light
+
+                MDNavigationRailItem:
+                    text: "Home"
+                    icon: "home"
+
+                MDNavigationRailItem:
+                    text: "Customers"
+                    icon: "account"
+
+                MDNavigationRailItem:
+                    text: "Update"
+                    icon: "refresh"
+
+                MDNavigationRailItem:
+                    text: "Add New"
+                    icon: "plus"
+
+                MDNavigationRailItem:
+                    text: "Search"
+                    icon: "magnify"
+
+                MDNavigationRailItem:
+                    text: "Report_1"
+                    icon: "file-document"
+
+                MDNavigationRailItem:
+                    text: "Report_2"
+                    icon: "chart-line"
 
         Product:
             id: _Product
-            size_hint_x: .7
+            size_hint_x: .67
 
             #size_hint_x: None
             #width: dp(950)

@@ -49,7 +49,6 @@ else:
 
 Window.size = 1280, 720
 
-
 Builder.load_file('main.kv')
 Builder.load_file(f"{os.environ['RADIN_ROOT']}/libs/kv files/order.kv")
 Builder.load_file(f"{os.environ['RADIN_ROOT']}/libs/kv files/products.kv")
@@ -135,6 +134,13 @@ class Product_detail_Variations(BoxLayout):
     text_price= ObjectProperty()
     text_disc= ObjectProperty()
     text_price_disc= ObjectProperty()
+
+    def update_text_price_disc(self, text_price, text_disc):
+
+        text_price = int(text_price.replace(",", ""))
+        text_disc = int(text_disc)
+
+        self.text_price_disc = f"{int(text_price * (1 - (text_disc / 100))):,}"
 
 class ResponsiveView(MDResponsiveLayout, MDScreen):
     dialog = None
@@ -866,7 +872,7 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
         self.desktop_view.ids._Product.get_screen('Product_detail').mgr1.children[0].mgr2.title= 'Variant Inventory'
 
 
-
+        #Product_detail_Variations.__init__()
 
         all_widgets = self.desktop_view.ids._Product.get_screen('Product_detail').mgr1.children[0].mgr4.children
 
@@ -875,6 +881,8 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
                 i.ids._Stock.disabled= True
                 i.ids._Price.disabled= True
                 i.ids._Disc.disabled= True
+                i.update_text_price_disc(i.ids._Price.text, i.ids._Disc.text)
+
             except:
                 None
         toast('Changes saved')
@@ -903,6 +911,15 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
                 if i == (len(startList)-1):
                     resultList.append(tempS)
         return ''.join(resultList)
+
+## Remains
+# add API s to 
+# Product_Details_save_action
+# Variant_Inventory_save_action
+
+
+
+
 
 class Test(MDApp):
 
