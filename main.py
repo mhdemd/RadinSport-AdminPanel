@@ -25,6 +25,7 @@ from kivy.animation import Animation
 from kivy.loader import Loader
 from kivymd.uix.filemanager import MDFileManager
 from kivymd.toast import toast
+from kivymd.uix.scrollview import MDScrollView
 
 import requests
 from arabic_reshaper import reshape
@@ -104,8 +105,14 @@ class Product_detail_image(MDBoxLayout, Button):
     source = ObjectProperty()
     icon_color = ObjectProperty()
 
-class Content(BoxLayout):
-    pass#error = ObjectProperty()
+class Content_search(BoxLayout):
+    pass
+
+class Content_customers(BoxLayout):
+    id= ObjectProperty()
+    name= ObjectProperty()
+    last_name= ObjectProperty()
+    phone= ObjectProperty()
 
 class Product_detail_BoxLayout(BoxLayout):
     mgr1= ObjectProperty()
@@ -394,7 +401,7 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
             self.dialog = MDDialog(
                 title="Search:",
                 type="custom",
-                content_cls=Content(),
+                content_cls=Content_search(),
                 buttons=[
                     MDFlatButton(
                         text="CANCEL",
@@ -912,12 +919,68 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
                     resultList.append(tempS)
         return ''.join(resultList)
 
+    def show_customers(self):
+
+        customers_list = [
+            ('1001','John', 'Smith', '+1-202-555-0124 ', '9876543210', '123 Main St', '12345', 'john.smith@example.com', 'jsmith123', 'pass123'),
+            ('1002','Emily', 'Johnson', '+1-202-555-0115', '0123456789', '456 Elm St', '54321', 'emily.johnson@example.com', 'ejohnson456', 'pass456'),
+            ('1003','Daniel', 'Williams', '+1-202-555-0124', '2222222222', '789 Oak St', '67890', 'daniel.williams@example.com', 'dwilliams789', 'pass789'),
+            ('1004','Sophia', 'Brown', '+1-202-555-0145', '4445556666', '321 Pine St', '09876', 'sophia.brown@example.com', 'sbrown321', 'pass321'),
+            ('1005','Oliver', 'Davis', '+1-202-555-0142', '6667778888', '654 Maple St', '54321', 'oliver.davis@example.com', 'odavis654', 'pass654'),
+            ('1006','Mia', 'Wilson', '+1-202-555-0192', '8889990000', '987 Oak St', '76543', 'mia.wilson@example.com', 'mwilson987', 'pass987'),
+            ('1007','James', 'Anderson', '+16465418354 ', '0001112222', '654 Pine St', '43210', 'james.anderson@example.com', 'janderson654', 'pass654'),
+            ('1008','Olivia', 'Thomas', '+1-202-555-0142', '2223334444', '321 Elm St', '98765', 'olivia.thomas@example.com', 'othomas321', 'pass321'),
+            ('1009','Liam', 'Taylor', '+1-202-555-0145', '4445556666', '987 Pine St', '67890', 'liam.taylor@example.com', 'ltaylor987', 'pass987'),
+            ('1010','Emma', 'Harris', '+16465418354 ', '6667778888', '654 Oak St', '54321', 'emma.harris@example.com', 'eharris654', 'pass654'),
+            ('1011','Noah', 'Clark', '+1-202-555-0142', '8889990000', '321 Maple St', '09876', 'noah.clark@example.com', 'nclark321', 'pass321'),
+            ('1012','Ava', 'Lewis', '+1-202-555-0192', '0001112222', '987 Elm St', '76543', 'ava.lewis@example.com', 'alewis987', 'pass987'),
+            ('1013','Isabella', 'Garcia', '+1-202-555-0145', '2223334444', '654 Pine St', '43210', 'isabella.garcia@example.com', 'igarcia654', 'pass654'),
+            ('1014','Sophia', 'Martinez', '+1-202-555-0192', '4445556666', '321 Oak St', '98765', 'sophia.martinez@example.com', 'smartinez321', 'pass321'),
+            ('1015','Elijah', 'Lopez', '+1-202-555-0142', '6667778888', '987 Elm St', '67890', 'elijah.lopez@example.com', 'elopez987', 'pass987')
+            ]
+
+
+        box_ = MDBoxLayout(
+            orientation='vertical', adaptive_height= True, spacing= '5dp',
+            md_bg_color= Test.get_running_app().theme_cls.primary_light,
+            padding= ['15dp', '15dp', 0, 0, ]
+            )
+
+        for i in range(len(customers_list)):
+            content_customer = Content_customers(
+                id=f'{customers_list[i][0]}',
+                name=f'{customers_list[i][1]}',
+                last_name=f'{customers_list[i][2]}',
+                phone=f'{customers_list[i][3]}'
+            )
+            box_.add_widget(content_customer)
+
+        scrollview = MDScrollView(size_hint=(1, None), height= '300dp', effect_cls= 'ScrollEffect')
+        scrollview.add_widget(box_)
+
+        if not self.dialog:
+            self.dialog = MDDialog(
+                title="Customers:",
+                type="custom",
+                content_cls=scrollview,
+                buttons=[
+                    MDFlatButton(
+                        text="OK",
+                        on_release=self.ok_pressed
+                    ),
+                ],
+            )
+        self.dialog.open()
+
+    def ok_pressed(self, *args):
+        self.dialog.dismiss()
+
+
+
 ## Remains
 # add API s to 
 # Product_Details_save_action
 # Variant_Inventory_save_action
-
-
 
 
 

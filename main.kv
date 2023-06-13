@@ -24,9 +24,6 @@
     id: desktop_view
     MDBoxLayout:
         orientation:'horizontal'
-        #MDBoxLayout:# Left side bar
-        #    size_hint_x: .08
-        #    md_bg_color: app.theme_cls.primary_dark
         MDBoxLayout:
             size_hint_x: None
             width: navigation_rail.width
@@ -42,14 +39,20 @@
                 MDNavigationRailItem:
                     text: "Home"
                     icon: "home"
+                    on_release:   
+                        root.ids._Product.current = 'Product_first' 
 
                 MDNavigationRailItem:
                     text: "Customers"
                     icon: "account"
+                    on_release:   
+                        app.root.show_customers() 
 
                 MDNavigationRailItem:
                     text: "Update"
                     icon: "refresh"
+                    on_release:   
+                        app.root.see_orders() 
 
                 MDNavigationRailItem:
                     text: "Add New"
@@ -78,13 +81,33 @@
             size_hint_x: .25
 
 #________________________
+<Content_customers>:
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: "25dp"
+    id: ''
+    name: ''
+    last_name: ''
+    phone: ''
 
+    MDLabel:
+        text: root.id
 
+    MDLabel:
+        text: root.name
 
+    MDLabel:
+        text: root.last_name
+        
+    MDLabel:
+        text: root.phone
+        
 
+        
+        
 
 ########## Search
-<Content>
+<Content_search>
     orientation: "vertical"
     spacing: "12dp"
     size_hint_y: None
