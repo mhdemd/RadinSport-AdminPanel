@@ -514,6 +514,7 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
 
     def search_action_close(self, *args):
         self.dialog.dismiss()
+        self.dialog = None
 
     def open_category_table(self, category):
         
@@ -987,14 +988,89 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
                 buttons=[
                     MDFlatButton(
                         text="OK",
-                        on_release=self.ok_pressed
+                        on_release=self.show_customers_ok_pressed
                     ),
                 ],
             )
         self.dialog.open()
 
-    def ok_pressed(self, *args):
+    def show_customers_ok_pressed(self, *args):
         self.dialog.dismiss()
+        self.dialog = None
+
+    def Add_new(self):
+        if not self.dialog:
+            self.dialog = MDDialog(
+                title="Choose an action:",
+                type="custom",
+                content_cls=Builder.load_string('''
+MDBoxLayout:
+    orientation: 'vertical'
+    spacing: 10
+    size_hint_x: 1
+    adaptive_height: True
+
+
+    MDRectangleFlatIconButton:
+        icon: "plus-box-multiple"
+        text: "Add a new category"
+        pos_hint: {'center_x': .5}
+        size_hint_x: .5
+        text_color: app.theme_cls.primary_dark
+        line_color: app.theme_cls.primary_dark
+        theme_icon_color: "Custom"
+        icon_color: "orange"
+        line_width: 1.01
+        on_release: app.Add_new_add_category()
+
+    MDRectangleFlatIconButton:
+        icon: "plus-box-multiple"
+        text: "Adding a new product"
+        pos_hint: {'center_x': .5}
+        size_hint_x: .5
+        text_color: app.theme_cls.primary_dark
+        line_color: app.theme_cls.primary_dark
+        theme_icon_color: "Custom"
+        icon_color: "orange"
+        line_width: 1.01
+        on_release: app.Add_new_add_new_product()
+
+    MDRectangleFlatIconButton:
+        icon: "plus-box-multiple"
+        text: "Adding new variety"
+        pos_hint: {'center_x': .5}
+        size_hint_x: .5
+        text_color: app.theme_cls.primary_dark
+        line_color: app.theme_cls.primary_dark
+        theme_icon_color: "Custom"
+        icon_color: "orange"
+        line_width: 1.01
+        on_release: app.Add_new_add_new_variety()
+'''),
+                buttons=[
+                    MDFlatButton(
+                        text="CANCEL",
+                        on_release=self.Add_new_close_dialog
+                    ),
+                ],
+            )
+        self.dialog.open()
+
+    def Add_new_close_dialog(self, *args):
+        self.dialog.dismiss()
+        self.dialog = None
+
+    def Add_new_add_category(self):
+        print("Add a category")
+        self.Add_new_close_dialog()
+
+    def Add_new_add_new_product(self):
+        print("Adding a new product")
+        self.Add_new_close_dialog()
+
+    def Add_new_add_new_variety(self):
+        print("Adding new variety")
+        self.Add_new_close_dialog()
 
 
 

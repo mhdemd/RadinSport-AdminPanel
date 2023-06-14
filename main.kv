@@ -57,11 +57,13 @@
                 MDNavigationRailItem:
                     text: "Add New"
                     icon: "plus"
-
+                    on_release:
+                        app.root.Add_new()
                 MDNavigationRailItem:
                     text: "Search"
                     icon: "magnify"
-
+                    on_release:
+                        app.root.search_action()
                 MDNavigationRailItem:
                     text: "Report_1"
                     icon: "file-document"

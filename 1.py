@@ -1,45 +1,84 @@
-import requests
-from kivy.app import App
-from kivy.uix.button import Button
-from kivy.uix.filechooser import FileChooserListView
-from kivy.network.urlrequest import UrlRequest
+from kivy.lang import Builder
+from kivymd.app import MDApp
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
 
-def upload_image(file_path):
-    upload_url = 'http://your_flask_api_host/upload'
-    
-    # Prepare the request with the image file
-    files = {'image': open(file_path, 'rb')}
-    
-    # Send the POST request to upload the image
-    response = requests.post(upload_url, files=files)
-    
-    # Check the response
-    if response.status_code == 200:
-        print('Image uploaded successfully.')
-    else:
-        print('Image upload failed:', response.text)
+KV = '''
+BoxLayout:
+    orientation: 'vertical'
+    spacing: 10
 
-class FileSelectionApp(App):
+
+
+    FloatLayout:
+        MDRaisedButton:
+            text: "Open Dialog"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            on_release: app.show_dialog()
+'''
+
+class MyApp(MDApp):
+    dialog = None
+
     def build(self):
-        filechooser = FileChooserListView()
-        button = Button(text='Upload', size_hint=(1, 0.1))
-        button.bind(on_release=lambda x: self.select_and_upload(filechooser.path))
-        layout = self.create_layout(filechooser, button)
-        return layout
+        return Builder.load_string(KV)
 
-    def create_layout(self, filechooser, button):
-        layout = BoxLayout(orientation='vertical')
-        layout.add_widget(filechooser)
-        layout.add_widget(button)
-        return layout
+    def show_dialog(self):
+        if not self.dialog:
+            self.dialog = MDDialog(
+                title="Choose an action:",
+                type="custom",
+                content_cls=Builder.load_string('''
+MDBoxLayout:
+    orientation: 'vertical'
+    spacing: 10
+    size_hint_x: 1
+    adaptive_height: True
 
-    def select_and_upload(self, file_path):
-        if file_path:
-            upload_image(file_path)
-        else:
-            print('No file selected.')
 
-if __name__ == '__main__':
-    FileSelectionApp().run()
-# Public Section
+    MDRectangleFlatIconButton:
+        icon: "plus-box-multiple"
+        text: "Add a new category"
+        pos_hint: {'center_x': .5}
+        size_hint_x: .5
+        on_release: app.add_category()
 
+    MDRectangleFlatIconButton:
+        icon: "plus-box-multiple"
+        text: "Adding a new product"
+        pos_hint: {'center_x': .5}
+        size_hint_x: .5
+        on_release: app.add_new_product()
+
+    MDRectangleFlatIconButton:
+        icon: "plus-box-multiple"
+        text: "Adding new variety"
+        pos_hint: {'center_x': .5}
+        size_hint_x: .5
+        on_release: app.add_new_variety()
+'''),
+                buttons=[
+                    MDFlatButton(
+                        text="CANCEL",
+                        on_release=self.close_dialog
+                    ),
+                ],
+            )
+        self.dialog.open()
+
+    def close_dialog(self, *args):
+        self.dialog.dismiss()
+
+    def add_category(self):
+        print("Add a category")
+        self.close_dialog()
+
+    def add_new_product(self):
+        print("Adding a new product")
+        self.close_dialog()
+
+    def add_new_variety(self):
+        print("Adding new variety")
+        self.close_dialog()
+
+MyApp().run()
