@@ -943,10 +943,31 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
         box_ = MDBoxLayout(
             orientation='vertical', adaptive_height= True, spacing= '5dp',
             md_bg_color= Test.get_running_app().theme_cls.primary_light,
-            padding= ['15dp', '15dp', 0, 0, ]
+            padding= ['15dp', '10dp', 0, 0, ]
             )
 
+        column_title = Content_customers(
+            spacing= '10dp',
+            id= '[b]id[/b]',
+            name= '[b]Name[/b]',
+            last_name= '[b]Last name[/b]',
+            phone= '[b]phone number[/b]'
+        )
+        box_.add_widget(column_title)
+        
         for i in range(len(customers_list)):
+        
+            content_customer = Content_customers(
+                id=f'{customers_list[i][0]}',
+                name=f'{customers_list[i][1]}',
+                last_name=f'{customers_list[i][2]}',
+                phone=f'{customers_list[i][3]}'
+            )
+            box_.add_widget(content_customer)
+
+        # Repeat
+        for i in range(len(customers_list)):
+        
             content_customer = Content_customers(
                 id=f'{customers_list[i][0]}',
                 name=f'{customers_list[i][1]}',

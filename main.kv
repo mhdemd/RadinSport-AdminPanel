@@ -82,27 +82,28 @@
 
 #________________________
 <Content_customers>:
-    orientation: 'horizontal'
+    orientation: 'vertical'
     size_hint_y: None
     height: "25dp"
     id: ''
     name: ''
     last_name: ''
     phone: ''
-
-    MDLabel:
-        text: root.id
-
-    MDLabel:
-        text: root.name
-
-    MDLabel:
-        text: root.last_name
-        
-    MDLabel:
-        text: root.phone
-        
-
+    BoxLayout:
+        orientation:'horizontal'
+        MDLabel:
+            text: root.id
+            markup: True
+        MDLabel:
+            text: root.name
+            markup: True
+        MDLabel:
+            text: root.last_name
+            markup: True
+        MDLabel:
+            text: root.phone
+            markup: True
+    Widget1:
         
         
 
