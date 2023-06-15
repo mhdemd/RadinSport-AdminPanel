@@ -65,12 +65,15 @@
                     on_release:
                         app.root.search_action()
                 MDNavigationRailItem:
-                    text: "Report_1"
-                    icon: "file-document"
-
+                    text: "Mo. Sales"
+                    icon: "chart-line"
+                    on_release:
+                        app.root.monthly_sales_report()
                 MDNavigationRailItem:
                     text: "Report_2"
-                    icon: "chart-line"
+                    icon: "file-document"
+                    on_release:
+                        app.root.best_customers()
 
         Product:
             id: _Product

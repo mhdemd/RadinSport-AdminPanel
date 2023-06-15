@@ -1,84 +1,25 @@
-from kivy.lang import Builder
-from kivymd.app import MDApp
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button import MDFlatButton
+import matplotlib.pyplot as plt
+import random
 
-KV = '''
-BoxLayout:
-    orientation: 'vertical'
-    spacing: 10
+# Hypothetical customer names and surnames
+customers = ['Alice Smith', 'Bob Johnson', 'Carol Williams', 'David Brown', 'Eve Davis', 'Frank Miller', 'Grace Wilson', 'Helen Moore', 'Ivan Taylor', 'Jack Anderson', 'Karen Thomas', 'Leo Jackson', 'Mia White', 'Nina Harris', 'Oscar Martin']
+# Random purchase amounts between 5 and 30
+purchase_amounts = [random.randint(5, 30) for _ in range(len(customers))]
 
+# Sort customers and purchase amounts by purchase amounts in ascending order
+sorted_data = sorted(zip(customers, purchase_amounts), key=lambda x: x[1])
+sorted_customers, sorted_amounts = zip(*sorted_data)
 
+# Create a figure with desired dimensions
+plt.figure(figsize=(10, 7))
 
-    FloatLayout:
-        MDRaisedButton:
-            text: "Open Dialog"
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            on_release: app.show_dialog()
-'''
+# Create a horizontal bar chart
+plt.barh(sorted_customers, sorted_amounts)
 
-class MyApp(MDApp):
-    dialog = None
+# Set chart title and labels
+plt.title('Purchase Amounts by Customer (Sorted)')
+plt.xlabel('Purchase Amount')
+plt.ylabel('Customers')
 
-    def build(self):
-        return Builder.load_string(KV)
-
-    def show_dialog(self):
-        if not self.dialog:
-            self.dialog = MDDialog(
-                title="Choose an action:",
-                type="custom",
-                content_cls=Builder.load_string('''
-MDBoxLayout:
-    orientation: 'vertical'
-    spacing: 10
-    size_hint_x: 1
-    adaptive_height: True
-
-
-    MDRectangleFlatIconButton:
-        icon: "plus-box-multiple"
-        text: "Add a new category"
-        pos_hint: {'center_x': .5}
-        size_hint_x: .5
-        on_release: app.add_category()
-
-    MDRectangleFlatIconButton:
-        icon: "plus-box-multiple"
-        text: "Adding a new product"
-        pos_hint: {'center_x': .5}
-        size_hint_x: .5
-        on_release: app.add_new_product()
-
-    MDRectangleFlatIconButton:
-        icon: "plus-box-multiple"
-        text: "Adding new variety"
-        pos_hint: {'center_x': .5}
-        size_hint_x: .5
-        on_release: app.add_new_variety()
-'''),
-                buttons=[
-                    MDFlatButton(
-                        text="CANCEL",
-                        on_release=self.close_dialog
-                    ),
-                ],
-            )
-        self.dialog.open()
-
-    def close_dialog(self, *args):
-        self.dialog.dismiss()
-
-    def add_category(self):
-        print("Add a category")
-        self.close_dialog()
-
-    def add_new_product(self):
-        print("Adding a new product")
-        self.close_dialog()
-
-    def add_new_variety(self):
-        print("Adding new variety")
-        self.close_dialog()
-
-MyApp().run()
+# Show the chart
+plt.show()

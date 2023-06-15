@@ -397,6 +397,7 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
         self.desktop_view.ids._orders.ids._Order_detail.ids._Order_detail_sc.children[0].status = results['order'][-1][-1]
 
     def search_action(self):
+        self.dialog = None
         if not self.dialog:
             self.dialog = MDDialog(
                 title="Search:",
@@ -436,7 +437,7 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
             return
 
         results = response.json()
-
+        
         if results == []:
             self.dialog.content_cls.ids._code.error = True
             self.dialog.content_cls.ids._code.helper_text = "No result found"
@@ -488,7 +489,8 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
 
             row_data= result_tuples, 
         )
-        #self.data_tables.bind(on_row_press=self.on_row_press)
+        #  self.data_tables.bind(on_row_press=self.on_row_press) # print(results)
+        self.data_tables.bind(on_row_press=partial(self.on_row_press, results[0][0]))
         #self.data_tables.bind(on_check_press=self.on_check_press)
 
         if self.desktop_view.ids._Product.has_screen('search'):
@@ -514,7 +516,7 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
 
     def search_action_close(self, *args):
         self.dialog.dismiss()
-        self.dialog = None
+        #self.dialog = None
 
     def open_category_table(self, category):
         
@@ -585,7 +587,7 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
                 #on_row_press=self.view_row_details
 
             )
-            self.data_tables.bind(on_row_press=self.on_row_press)
+            self.data_tables.bind(on_row_press=partial(self.on_row_press, ''))
             #self.data_tables.bind(on_check_press=self.on_check_press)
 
             self.screen = Product_table(name= '%s'%(self.category_dict[category]))
@@ -598,7 +600,7 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
         self.desktop_view.ids._Product.current = 'Product_first'
         #self.desktop_view.ids._Product.ids._Product_table.ids._Product_table_MDBoxLayout.remove_widget(self.desktop_view.ids._Product.ids._Product_table.ids._Product_table_MDBoxLayout.children[0])
 
-    def on_row_press(self, table_widget, row_data):
+    def on_row_press(self, DKP, table_widget, row_data):
 
         self.desktop_view.ids._Product.current = 'Product_detail' 
 
@@ -622,7 +624,7 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
         # API For get images name
         url = 'http://mahdiemadi.ir/get_image_name' 
 
-        self.DKP = self.product_code_DKP[code]
+        self.DKP = self.product_code_DKP[code] if DKP == '' else DKP
 
         params = {'DKP': self.DKP}
 
@@ -940,7 +942,6 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
             ('1015','Elijah', 'Lopez', '+1-202-555-0142', '6667778888', '987 Elm St', '67890', 'elijah.lopez@example.com', 'elopez987', 'pass987')
             ]
 
-
         box_ = MDBoxLayout(
             orientation='vertical', adaptive_height= True, spacing= '5dp',
             md_bg_color= Test.get_running_app().theme_cls.primary_light,
@@ -980,6 +981,7 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
         scrollview = MDScrollView(size_hint=(1, None), height= '300dp', effect_cls= 'ScrollEffect')
         scrollview.add_widget(box_)
 
+        self.dialog = None
         if not self.dialog:
             self.dialog = MDDialog(
                 title="Customers:",
@@ -996,9 +998,10 @@ class ResponsiveView(MDResponsiveLayout, MDScreen):
 
     def show_customers_ok_pressed(self, *args):
         self.dialog.dismiss()
-        self.dialog = None
+        #self.dialog = None
 
     def Add_new(self):
+        self.dialog = None
         if not self.dialog:
             self.dialog = MDDialog(
                 title="Choose an action:",
@@ -1058,7 +1061,7 @@ MDBoxLayout:
 
     def Add_new_close_dialog(self, *args):
         self.dialog.dismiss()
-        self.dialog = None
+        #self.dialog = None
 
     def Add_new_add_category(self):
         print("Add a category")
@@ -1069,8 +1072,63 @@ MDBoxLayout:
         self.Add_new_close_dialog()
 
     def Add_new_add_new_variety(self):
-        print("Adding new variety")
         self.Add_new_close_dialog()
+
+    def monthly_sales_report(self):
+        import matplotlib.pyplot as plt
+
+        sales = {
+            'Jan-21': 134, 'Feb-21': 150, 'Mar-21': 118, 'Apr-21': 111, 'May-21': 109, 'Jun-21': 110, 'Jul-21': 145, 'Aug-21': 135, 'Sep-21': 127, 'Oct-21': 109, 'Nov-21': 122, 'Dec-21': 123,
+            'Jan-22': 129, 'Feb-22': 138, 'Mar-22': 105, 'Apr-22': 112, 'May-22': 128, 'Jun-22': 131, 'Jul-22': 105, 'Aug-22': 127, 'Sep-22': 121, 'Oct-22': 118, 'Nov-22': 112, 'Dec-22': 117
+        }
+
+        # Extract the months and sales values from the dictionary
+        months = list(sales.keys())
+        sales_values = list(sales.values())
+
+        # Create a figure with desired dimensions
+        plt.figure(figsize=(10, 7))
+
+        # Create a plot chart
+        plt.plot(months, sales_values, 'bo', months, sales_values)
+
+        # Rotate the x-axis labels for better readability
+        plt.xticks(rotation=45)
+
+        # Add labels and a title
+        plt.xlabel('Months')
+        plt.ylabel('Sales (million Tomans)')
+        plt.title('Monthly Sales')
+
+        # Display the chart
+        plt.show()
+
+    def best_customers(self):     
+        import matplotlib.pyplot as plt
+        import random
+
+        # Hypothetical customer names and surnames
+        customers = ['Alice Smith', 'Bob Johnson', 'Carol Williams', 'David Brown', 'Eve Davis', 'Frank Miller', 'Grace Wilson', 'Helen Moore', 'Ivan Taylor', 'Jack Anderson', 'Karen Thomas', 'Leo Jackson', 'Mia White', 'Nina Harris', 'Oscar Martin']
+        # Random purchase amounts between 5 and 30
+        purchase_amounts = [random.randint(5, 30) for _ in range(len(customers))]
+
+        # Sort customers and purchase amounts by purchase amounts in ascending order
+        sorted_data = sorted(zip(customers, purchase_amounts), key=lambda x: x[1])
+        sorted_customers, sorted_amounts = zip(*sorted_data)
+
+        # Create a figure with desired dimensions
+        plt.figure(figsize=(11, 7))
+
+        # Create a horizontal bar chart
+        plt.barh(sorted_customers, sorted_amounts)
+
+        # Set chart title and labels
+        plt.title('Purchase Amounts by Customer (Sorted)')
+        plt.xlabel('Purchase Amount (million Tomans)')
+        plt.ylabel('Customers')
+
+        # Show the chart
+        plt.show()
 
 
 
